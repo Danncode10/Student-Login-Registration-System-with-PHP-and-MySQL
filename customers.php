@@ -2,7 +2,7 @@
 session_start();
 require_once "config.php";
 
-// Redirect to login if not logged in
+// Redirect if not logged in
 if (!isset($_SESSION['username'])) {
     header("Location: index.php");
     exit;
@@ -12,6 +12,12 @@ if (!isset($_SESSION['username'])) {
 $stmt = $pdo->prepare("SELECT * FROM customers ORDER BY id DESC");
 $stmt->execute();
 $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Count by gender
+$genderData = $pdo->query("SELECT gender, COUNT(*) as count FROM customers GROUP BY gender")->fetchAll(PDO::FETCH_ASSOC);
+
+// Count by location
+$locationData = $pdo->query("SELECT location, COUNT(*) as count FROM customers GROUP BY location")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +45,13 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="container">
     <div class="card p-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Customer Dashboard</h2>
-        <a href="logout.php" class="btn btn-danger">Logout</a>
-      </div>
+        <h2 style="color: white; text-align: left;">Customer Dashboard</h2>
+        <div>
+            <a href="home.php" class="btn btn-secondary me-2">🏠 Home</a>
+            <a href="logout.php" class="btn btn-danger">Logout</a>
+        </div>
+        </div>
+
 
       <div class="mb-3">
         <a href="register.php" class="btn btn-success">➕ Add New Customer</a>
@@ -82,6 +92,75 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
       </div>
     </div>
+
+    <!-- Charts Section -->
+    <div class="card mt-5 p-4">
+      <h3 class="mb-4 text-white">Customer Analytics</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <canvas id="genderChart"></canvas>
+        </div>
+        <div class="col-md-6">
+          <canvas id="locationChart"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    const locationCtx = document.getElementById('locationChart').getContext('2d');
+
+    const genderChart = new Chart(genderCtx, {
+      type: 'pie',
+      data: {
+        labels: <?= json_encode(array_column($genderData, 'gender')) ?>,
+        datasets: [{
+          label: 'Gender Distribution',
+          data: <?= json_encode(array_column($genderData, 'count')) ?>,
+          backgroundColor: ['#007bff', '#dc3545', '#ffc107'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: { color: 'white' }
+          }
+        }
+      }
+    });
+
+    const locationChart = new Chart(locationCtx, {
+      type: 'bar',
+      data: {
+        labels: <?= json_encode(array_column($locationData, 'location')) ?>,
+        datasets: [{
+          label: 'Customers per Location',
+          data: <?= json_encode(array_column($locationData, 'count')) ?>,
+          backgroundColor: '#28a745',
+          borderRadius: 5
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: 'white' }
+          },
+          x: {
+            ticks: { color: 'white' }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { color: 'white' }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -30,14 +30,50 @@ $username = htmlspecialchars($_SESSION['username']);
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body class="d-flex flex-column h-100">
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="home.php">🏠 Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link" href="customers.php">📋 Dashboard</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-danger" href="logout.php">🚪 Logout</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </nav> -->
+
         <main class="flex-shrink-0">
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-                <div class="container px-5">
-                    <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">Lester Dann G. Lopez</span></a>
-                    </div>
+            <div class="container px-5">
+                <a class="navbar-brand" href="index.html">
+                <span class="fw-bolder text-primary">Lester Dann G. Lopez</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link fs-5 text-dark fw-bold" href="customers.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link fs-5 text-danger fw-bold" href="logout.php">Logout</a>
+                    </li>
+                </ul>
                 </div>
+            </div>
             </nav>
+
             <!-- Header-->
             <header class="py-5">
                 <div class="container px-5 pb-5">
