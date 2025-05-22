@@ -1,7 +1,7 @@
 # Lester Dann Lopez — PHP/MySQL Customer Management System
 
 This is a student web application project developed for the Information Management subject. It demonstrates a complete login, registration, and customer data management system using PHP, MySQL, Bootstrap, and Chart.js.
-
+![home.png](assets/output/home.png)
 ## 📌 Features
 
 * User registration with name, gender, location, username, and password (hashed)
@@ -52,14 +52,16 @@ This is a student web application project developed for the Information Manageme
    * Username: juan123
    * Password: 1234
 
-## 📸 Screenshots (Optional)
+## 📸 Screenshots
 
 Include images of:
 
 * Login form
+![index.png](assets/output/index.png)
 * Register form
-* Customer dashboard
-* Analytics charts (gender & location)
+![register.png](assets/output/register.png)
+* Customer dashboard | Analytics charts (gender & location)
+![customers.png](assets/output/customers.png)
 
 ## 🧑‍🎓 Author
 
