@@ -1,15 +1,21 @@
-# Lester Dann Lopez — PHP/MySQL Login & Registration Website
+# Lester Dann Lopez — PHP/MySQL Customer Management System
 
-This is a student web application project developed for the Information Management subject. It demonstrates a complete user login and registration system using PHP, MySQL, Bootstrap, and session management.
+This is a student web application project developed for the Information Management subject. It demonstrates a complete login, registration, and customer data management system using PHP, MySQL, Bootstrap, and Chart.js.
 
 ## 📌 Features
 
-* User registration with password encryption (password\_hash)
-* Login system with session-based authentication
-* Secure logout functionality
-* Responsive front-end design using Bootstrap and a customized CSS layout (styles.css)
-* Protected home page that greets the logged-in user
-* Database-driven user management (MySQL)
+* User registration with name, gender, location, username, and password (hashed)
+* Login system using the customers table
+* Session-based access control (only logged-in users can access dashboard)
+* Bootstrap-styled dashboard that displays all customers
+* View, Edit, and Delete functions for each customer
+* Add new customers via registration form
+* Analytics section showing:
+
+  * Pie chart of gender distribution
+  * Bar chart of customer count per location
+* Secure logout
+* Responsive front-end UI with dark and gradient styling
 
 ## 🛠 Technologies Used
 
@@ -17,39 +23,46 @@ This is a student web application project developed for the Information Manageme
 * MySQL (via XAMPP on macOS)
 * HTML5, CSS3
 * Bootstrap 5.3
+* Chart.js (for graphs)
 * Visual Studio Code (VS Code)
 * DBeaver for database management
 
 ## 🧪 How to Run the Project
 
 1. Start XAMPP and make sure Apache and MySQL are running.
-2. Place the /lester\_site/ folder in:
+2. Place the lester\_site folder inside:
    /Applications/XAMPP/htdocs/
 3. Open your browser and go to:
    [http://localhost/lester\_site/](http://localhost/lester_site/)
-4. Create the database using DBeaver or phpMyAdmin:
+4. Create the database:
 
-   * Database name: user\_system
-   * Table: users
+   * Open phpMyAdmin or DBeaver
+   * Run the SQL script inside /query/create\_database.sql
+     (It will create the user\_system database and customers table with one sample entry)
+5. Make sure your config.php contains:
 
-   ```sql
-   CREATE TABLE users (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     username VARCHAR(50) UNIQUE NOT NULL,
-     password VARCHAR(255) NOT NULL
-   );
+   ```php
+   $host = 'localhost';
+   $dbname = 'user_system';
+   $username = 'root';
+   $password = ''; // or your MySQL root password
    ```
-5. Edit config.php to match your MySQL credentials if needed.
-6. Register a new user and test login/logout flow.
+6. Register a new customer or log in using:
 
-## 📸 Screenshot
+   * Username: juan123
+   * Password: 1234
 
-Include a screenshot of the home page, login, and register pages here (optional).
+## 📸 Screenshots (Optional)
+
+Include images of:
+
+* Login form
+* Register form
+* Customer dashboard
+* Analytics charts (gender & location)
 
 ## 🧑‍🎓 Author
 
 Lester Dann Lopez
 Information Management — Student Project
 May 2025
-
----
