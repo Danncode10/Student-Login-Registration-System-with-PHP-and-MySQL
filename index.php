@@ -8,12 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $password = $_POST["password"];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    // Use customers table now
+    $stmt = $pdo->prepare("SELECT * FROM customers WHERE username = ?");
     $stmt->execute([$username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($customer && password_verify($password, $customer['password'])) {
+        // Set session variable (you can also store name, id, etc.)
         $_SESSION['username'] = $username;
+        $_SESSION['customer_id'] = $customer['id'];
         header("Location: home.php");
         exit;
     } else {
