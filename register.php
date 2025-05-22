@@ -7,19 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $password = $_POST["password"];
 
-    // Check if username exists
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    // Check if username already exists in customers table
+    $stmt = $pdo->prepare("SELECT * FROM customers WHERE username = ?");
     $stmt->execute([$username]);
-    $existingUser = $stmt->fetch();
+    $existingCustomer = $stmt->fetch();
 
-    if ($existingUser) {
+    if ($existingCustomer) {
         $message = '<div class="alert alert-danger">⚠️ Username already exists.</div>';
     } else {
-        // Hash the password
+        // Hash the password securely
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert user
-        $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        // Insert new customer with only username and password for now
+        $stmt = $pdo->prepare("INSERT INTO customers (username, password) VALUES (?, ?)");
         if ($stmt->execute([$username, $hashedPassword])) {
             $message = '<div class="alert alert-success">✅ Registration successful. <a href="index.php" class="alert-link">Login now</a>.</div>';
         } else {
