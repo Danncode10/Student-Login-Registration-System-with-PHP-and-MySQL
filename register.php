@@ -4,10 +4,13 @@ require_once "config.php";
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name     = trim($_POST["name"]);
+    $gender   = $_POST["gender"];
+    $location = trim($_POST["location"]);
     $username = trim($_POST["username"]);
     $password = $_POST["password"];
 
-    // Check if username already exists in customers table
+    // Check if username already exists
     $stmt = $pdo->prepare("SELECT * FROM customers WHERE username = ?");
     $stmt->execute([$username]);
     $existingCustomer = $stmt->fetch();
@@ -15,12 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($existingCustomer) {
         $message = '<div class="alert alert-danger">⚠️ Username already exists.</div>';
     } else {
-        // Hash the password securely
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert new customer with only username and password for now
-        $stmt = $pdo->prepare("INSERT INTO customers (username, password) VALUES (?, ?)");
-        if ($stmt->execute([$username, $hashedPassword])) {
+        $stmt = $pdo->prepare("INSERT INTO customers (name, gender, location, username, password) VALUES (?, ?, ?, ?, ?)");
+        if ($stmt->execute([$name, $gender, $location, $username, $hashedPassword])) {
             $message = '<div class="alert alert-success">✅ Registration successful. <a href="index.php" class="alert-link">Login now</a>.</div>';
         } else {
             $message = '<div class="alert alert-danger">❌ Error during registration.</div>';
@@ -51,7 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="card-body p-5 text-center">
 
             <div class="mb-md-5 mt-md-4 pb-3">
-
               <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
               <p class="text-white-50 mb-4">Create your account below</p>
 
@@ -59,7 +59,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               <form method="post" action="">
 
-                <div class="form-outline form-white mb-4 text-start">
+                <div class="form-outline form-white mb-3 text-start">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" name="name" class="form-control form-control-lg" required />
+                </div>
+
+                <div class="form-outline form-white mb-3 text-start">
+                  <label class="form-label">Gender</label>
+                  <select name="gender" class="form-select form-select-lg" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-outline form-white mb-3 text-start">
+                  <label class="form-label">Location</label>
+                  <input type="text" name="location" class="form-control form-control-lg" required />
+                </div>
+
+                <div class="form-outline form-white mb-3 text-start">
                   <label class="form-label">Username</label>
                   <input type="text" name="username" class="form-control form-control-lg" required />
                 </div>
@@ -71,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
               </form>
-
             </div>
 
             <div>
